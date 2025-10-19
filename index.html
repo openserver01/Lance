@@ -4,7 +4,388 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>To-Do List</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+  /* === Global Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* === Base Theme Variables === */
+:root {
+  --accent: #007bff;
+  --bg: #f4f7fb;
+  --text: #222;
+  --card: #fff;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* === Dark Theme Variables === */
+body.dark {
+  --bg: #1f1f1f;
+  --text: #eaeaea;
+  --card: #2b2b2b;
+  --shadow: rgba(0, 0, 0, 0.5);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* === Header === */
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 20px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 600;
+  box-shadow: 0 3px 8px var(--shadow);
+}
+
+header .menu {
+  position: absolute;
+  right: 20px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+header .menu:hover {
+  transform: scale(1.1);
+}
+
+/* === Hidden Class === */
+.hidden {
+  display: none !important;
+}
+
+/* === Slide Menu === */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 260px;
+  height: 100%;
+  background: var(--card);
+  box-shadow: -3px 0 12px var(--shadow);
+  padding: 25px;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+  z-index: 1000;
+}
+
+#sideMenu.show {
+  transform: translateX(0);
+}
+
+#sideMenu h3 {
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: 25px;
+  font-size: 1.3rem;
+}
+
+.menu-section {
+  margin-bottom: 25px;
+}
+
+.menu-section label {
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* === Accent Button === */
+#accentBtn {
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 3px 6px var(--shadow);
+  transition: all 0.25s ease;
+}
+#accentBtn:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+  transform: scale(1.05);
+}
+
+/* === Color Options === */
+.color-options {
+  display: none;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.color-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  transition: transform 0.2s;
+}
+.color-circle:hover {
+  transform: scale(1.2);
+}
+
+/* === Archive Button === */
+#showArchive {
+  width: 100%;
+  padding: 10px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 3px 8px var(--shadow);
+  transition: 0.2s;
+}
+#showArchive:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+}
+
+/* === Add Task Section === */
+#addSection {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
+  background: var(--card);
+  box-shadow: 0 3px 8px var(--shadow);
+}
+#addSection input,
+#addSection button {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+#addSection button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+#addSection button:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+}
+
+/* === To-Do List === */
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+ul {
+  list-style: none;
+  width: 90%;
+  max-width: 420px;
+}
+li {
+  background: var(--card);
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease, background 0.3s;
+}
+li:hover {
+  transform: scale(1.02);
+}
+li.done label {
+  text-decoration: line-through;
+  color: gray;
+}
+li small {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* === Delete Mode === */
+.delete-item {
+  display: none;
+  background: #ff4d4d;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.delete-item:hover {
+  background: #c70000;
+}
+.delete-mode .delete-item {
+  display: inline-block;
+}
+
+/* === Delete All === */
+#deleteAllContainer {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+#deleteAllBtn {
+  background: #ff4d4d;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+#deleteAllBtn:hover {
+  background: #c70000;
+}
+
+/* === Floating Buttons === */
+.floating-btns {
+  position: fixed;
+  bottom: 25px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 500;
+}
+.circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 5px 12px var(--shadow);
+  transition: transform 0.2s, background 0.3s;
+}
+.circle:hover {
+  transform: scale(1.1);
+  background: color-mix(in srgb, var(--accent) 85%, white);
+}
+
+/* === Archive Section === */
+#archiveSection {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--card);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px var(--shadow);
+  width: 85%;
+  max-width: 400px;
+  z-index: 1100;
+}
+#archiveSection h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: var(--accent);
+}
+#closeArchive {
+  display: block;
+  margin: 15px auto 0;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+#closeArchive:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+}
+
+.color-circle.gradient {
+  border: 2px solid #ccc;
+  background-size: 150% 150%;
+}
+.color-circle.gradient:hover {
+  transform: scale(1.2);
+  border-color: var(--accent);
+}
+
+/* Accent color button container */
+#accentBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 12px 16px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: transform 0.2s, background 0.3s;
+}
+
+#accentBtn:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+  transform: scale(1.05);
+}
+
+/* Color options container */
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  justify-content: flex-start;
+}
+
+/* Color circle base */
+.color-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.color-circle:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* Make gradients clearly visible */
+.color-circle.gradient {
+  border: 2px solid rgba(255,255,255,0.6);
+  background-size: cover;
+}
+
+/* When selected */
+.color-circle.selected {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+</style>
 </head>
 <body>
   <!-- Header -->
@@ -83,57 +464,162 @@
     <button id="deleteBtn" class="circle">&#128465;</button>
   </div>
 
-  <script src="script.js"></script>
-</body>
-</html>        <span class="color-circle" data-color="#17a2b8" style="background:#17a2b8"></span>
-        <span class="color-circle" data-color="#ff69b4" style="background:#ff69b4"></span>
-        <span class="color-circle" data-color="#ff8c42" style="background:#ff8c42"></span>
-        <span class="color-circle" data-color="#20c997" style="background:#20c997"></span>
+<script>
+const todoList = document.getElementById('todoList');
+const addBtn = document.getElementById('addBtn');
+const deleteBtn = document.getElementById('deleteBtn');
+const addSection = document.getElementById('addSection');
+const confirmAdd = document.getElementById('confirmAdd');
+const taskName = document.getElementById('taskName');
+const taskDate = document.getElementById('taskDate');
+const deleteAllContainer = document.getElementById('deleteAllContainer');
+const deleteAllBtn = document.getElementById('deleteAllBtn');
+const menuBtn = document.getElementById('menuBtn');
+const sideMenu = document.getElementById('sideMenu');
+const themeToggle = document.getElementById('themeToggle');
+const colorCircles = document.querySelectorAll('.color-circle');
+const archiveSection = document.getElementById('archiveSection');
+const archiveList = document.getElementById('archiveList');
+const showArchive = document.getElementById('showArchive');
+const closeArchive = document.getElementById('closeArchive');
+const colorTitle = document.getElementById('accentBtn');
+const colorOptions = document.querySelector('.color-options');
 
-        <!-- Gradient Colors -->
-        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #ff9966, #ff5e62)" style="background:linear-gradient(45deg, #ff9966, #ff5e62)"></span>
-        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #2193b0, #6dd5ed)" style="background:linear-gradient(45deg, #2193b0, #6dd5ed)"></span>
-        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #a1c4fd, #c2e9fb)" style="background:linear-gradient(45deg, #a1c4fd, #c2e9fb)"></span>
-        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #654ea3, #eaafc8)" style="background:linear-gradient(45deg, #654ea3, #eaafc8)"></span>
-        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #fcb045, #fd1d1d, #833ab4)" style="background:linear-gradient(45deg, #fcb045, #fd1d1d, #833ab4)"></span>
-      </div>
-    </div>
+colorOptions.style.display = "none";
+let deleteMode = false;
 
-    <div class="menu-section">
-      <button id="showArchive" class="archive-btn">📦 View Archive</button>
-    </div>
-  </div>
+// --- Add button toggle ---
+addBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  addSection.classList.toggle('hidden');
+  sideMenu.classList.remove('show');
+  deleteAllContainer.classList.add('hidden');
+});
 
-  <!-- Add Task -->
-  <section id="addSection" class="hidden card">
-    <input type="text" id="taskName" placeholder="Task name..." />
-    <input type="date" id="taskDate" />
-    <button id="confirmAdd">Add</button>
-  </section>
+// Prevent closing when clicking inside add section
+addSection.addEventListener('click', (e) => e.stopPropagation());
 
-  <!-- Delete All -->
-  <div id="deleteAllContainer" class="hidden">
-    <button id="deleteAllBtn" class="delete-all">🗑️ Delete All</button>
-  </div>
+// --- Add new task ---
+confirmAdd.addEventListener('click', () => {
+  const name = taskName.value.trim();
+  const date = taskDate.value;
+  if (!name || !date) return alert("Please enter task name and date!");
 
-  <!-- To-Do List -->
-  <main>
-    <ul id="todoList"></ul>
-  </main>
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <label><input type="checkbox" class="checkTask"> ${name} <small>(${date})</small></label>
+    <button class="delete-item">Delete</button>
+  `;
 
-  <!-- Archive -->
-  <section id="archiveSection" class="hidden card">
-    <h2>📚 Archived Tasks</h2>
-    <ul id="archiveList"></ul>
-    <button id="closeArchive">Close Archive</button>
-  </section>
+  const checkbox = li.querySelector('.checkTask');
+  checkbox.addEventListener('change', (e) => {
+    li.classList.toggle('done', e.target.checked);
+    if (e.target.checked) {
+      const archived = li.cloneNode(true);
+      archived.querySelector('.delete-item').remove();
+      archiveList.appendChild(archived);
+    }
+  });
 
-  <!-- Floating Buttons -->
-  <div class="floating-btns">
-    <button id="addBtn" class="circle">+</button>
-    <button id="deleteBtn" class="circle">&#128465;</button>
-  </div>
+  li.querySelector('.delete-item').addEventListener('click', () => li.remove());
+  todoList.appendChild(li);
 
-  <script src="script.js"></script>
+  taskName.value = "";
+  taskDate.value = "";
+  addSection.classList.add('hidden');
+});
+
+// --- Delete mode ---
+deleteBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  deleteMode = !deleteMode;
+  toggleDeleteMode(deleteMode);
+});
+
+function toggleDeleteMode(active) {
+  const items = todoList.querySelectorAll('li');
+  items.forEach(li => li.classList.toggle('delete-mode', active));
+  deleteAllContainer.classList.toggle('hidden', !active);
+  addSection.classList.add('hidden');
+}
+
+// --- Delete All ---
+deleteAllBtn.addEventListener('click', () => {
+  if (confirm("Delete all tasks?")) {
+    todoList.innerHTML = "";
+    toggleDeleteMode(false);
+    deleteMode = false;
+  }
+});
+
+// --- Menu toggle ---
+menuBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  sideMenu.classList.toggle('show');
+  addSection.classList.add('hidden');
+  deleteAllContainer.classList.add('hidden');
+});
+
+// Prevent closing when clicking inside menu
+sideMenu.addEventListener('click', (e) => e.stopPropagation());
+
+// --- Hide things when clicking outside ---
+document.addEventListener('click', (e) => {
+  sideMenu.classList.remove('show');
+  addSection.classList.add('hidden');
+  toggleDeleteMode(false);
+  deleteMode = false;
+  colorOptions.style.display = "none";
+});
+
+// --- Theme toggle ---
+themeToggle.addEventListener('change', () => {
+  document.body.classList.toggle('dark', themeToggle.checked);
+  localStorage.setItem('darkMode', themeToggle.checked);
+});
+if (localStorage.getItem('darkMode') === 'true') {
+  themeToggle.checked = true;
+  document.body.classList.add('dark');
+}
+
+// --- Accent color selection ---
+colorCircles.forEach(c => {
+  c.addEventListener('click', () => {
+    const color = c.dataset.color;
+    const gradient = c.dataset.gradient;
+
+    if (gradient) {
+      document.documentElement.style.setProperty('--accent', gradient);
+      document.body.style.background = gradient;
+      localStorage.setItem('accent', gradient);
+    } else {
+      document.documentElement.style.setProperty('--accent', color);
+      document.body.style.background = 'var(--bg)';
+      localStorage.setItem('accent', color);
+    }
+  });
+});
+
+const savedColor = localStorage.getItem('accent');
+if (savedColor) {
+  document.documentElement.style.setProperty('--accent', savedColor);
+  if (savedColor.includes('gradient')) document.body.style.background = savedColor;
+}
+
+// --- Show/hide color options ---
+colorTitle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  colorOptions.style.display = (colorOptions.style.display === "flex") ? "none" : "flex";
+});
+
+// --- Archive ---
+showArchive.addEventListener('click', () => {
+  archiveSection.classList.remove('hidden');
+  sideMenu.classList.remove('show');
+});
+closeArchive.addEventListener('click', () => {
+  archiveSection.classList.add('hidden');
+});
+</script>
 </body>
 </html>
