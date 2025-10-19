@@ -85,4 +85,55 @@
 
   <script src="script.js"></script>
 </body>
+</html>        <span class="color-circle" data-color="#17a2b8" style="background:#17a2b8"></span>
+        <span class="color-circle" data-color="#ff69b4" style="background:#ff69b4"></span>
+        <span class="color-circle" data-color="#ff8c42" style="background:#ff8c42"></span>
+        <span class="color-circle" data-color="#20c997" style="background:#20c997"></span>
+
+        <!-- Gradient Colors -->
+        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #ff9966, #ff5e62)" style="background:linear-gradient(45deg, #ff9966, #ff5e62)"></span>
+        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #2193b0, #6dd5ed)" style="background:linear-gradient(45deg, #2193b0, #6dd5ed)"></span>
+        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #a1c4fd, #c2e9fb)" style="background:linear-gradient(45deg, #a1c4fd, #c2e9fb)"></span>
+        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #654ea3, #eaafc8)" style="background:linear-gradient(45deg, #654ea3, #eaafc8)"></span>
+        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #fcb045, #fd1d1d, #833ab4)" style="background:linear-gradient(45deg, #fcb045, #fd1d1d, #833ab4)"></span>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <button id="showArchive" class="archive-btn">📦 View Archive</button>
+    </div>
+  </div>
+
+  <!-- Add Task -->
+  <section id="addSection" class="hidden card">
+    <input type="text" id="taskName" placeholder="Task name..." />
+    <input type="date" id="taskDate" />
+    <button id="confirmAdd">Add</button>
+  </section>
+
+  <!-- Delete All -->
+  <div id="deleteAllContainer" class="hidden">
+    <button id="deleteAllBtn" class="delete-all">🗑️ Delete All</button>
+  </div>
+
+  <!-- To-Do List -->
+  <main>
+    <ul id="todoList"></ul>
+  </main>
+
+  <!-- Archive -->
+  <section id="archiveSection" class="hidden card">
+    <h2>📚 Archived Tasks</h2>
+    <ul id="archiveList"></ul>
+    <button id="closeArchive">Close Archive</button>
+  </section>
+
+  <!-- Floating Buttons -->
+  <div class="floating-btns">
+    <button id="addBtn" class="circle">+</button>
+    <button id="deleteBtn" class="circle">&#128465;</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
