@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do List</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>To-Do List</h1>
+    <div class="menu" id="menuBtn">&#9776;</div>
+  </header>
+
+  <!-- Slide Menu -->
+  <div id="sideMenu">
+    <h3>⚙️ Settings</h3>
+
+    <div class="menu-section">
+      <label class="toggle-switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+        <span class="label-text">Dark Mode</span>
+      </label>
+    </div>
+
+    <div class="menu-section">
+      <p id="accentBtn">🎨 Theme</p>
+      <div class="color-options">
+        <!-- Solid Colors -->
+        <span class="color-circle" data-color="#007bff" style="background:#007bff"></span>
+        <span class="color-circle" data-color="#28a745" style="background:#28a745"></span>
+        <span class="color-circle" data-color="#ffc107" style="background:#ffc107"></span>
+        <span class="color-circle" data-color="#dc3545" style="background:#dc3545"></span>
+        <span class="color-circle" data-color="#6f42c1" style="background:#6f42c1"></span>
+        <span class="color-circle" data-color="#17a2b8" style="background:#17a2b8"></span>
+        <span class="color-circle" data-color="#ff69b4" style="background:#ff69b4"></span>
+        <span class="color-circle" data-color="#ff8c42" style="background:#ff8c42"></span>
+        <span class="color-circle" data-color="#20c997" style="background:#20c997"></span>
+
+        <!-- Gradient Colors -->
+        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #ff9966, #ff5e62)" style="background:linear-gradient(45deg, #ff9966, #ff5e62)"></span>
+        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #2193b0, #6dd5ed)" style="background:linear-gradient(45deg, #2193b0, #6dd5ed)"></span>
+        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #a1c4fd, #c2e9fb)" style="background:linear-gradient(45deg, #a1c4fd, #c2e9fb)"></span>
+        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #654ea3, #eaafc8)" style="background:linear-gradient(45deg, #654ea3, #eaafc8)"></span>
+        <span class="color-circle gradient" data-gradient="linear-gradient(45deg, #fcb045, #fd1d1d, #833ab4)" style="background:linear-gradient(45deg, #fcb045, #fd1d1d, #833ab4)"></span>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <button id="showArchive" class="archive-btn">📦 View Archive</button>
+    </div>
+  </div>
+
+  <!-- Add Task -->
+  <section id="addSection" class="hidden card">
+    <input type="text" id="taskName" placeholder="Task name..." />
+    <input type="date" id="taskDate" />
+    <button id="confirmAdd">Add</button>
+  </section>
+
+  <!-- Delete All -->
+  <div id="deleteAllContainer" class="hidden">
+    <button id="deleteAllBtn" class="delete-all">🗑️ Delete All</button>
+  </div>
+
+  <!-- To-Do List -->
+  <main>
+    <ul id="todoList"></ul>
+  </main>
+
+  <!-- Archive -->
+  <section id="archiveSection" class="hidden card">
+    <h2>📚 Archived Tasks</h2>
+    <ul id="archiveList"></ul>
+    <button id="closeArchive">Close Archive</button>
+  </section>
+
+  <!-- Floating Buttons -->
+  <div class="floating-btns">
+    <button id="addBtn" class="circle">+</button>
+    <button id="deleteBtn" class="circle">&#128465;</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
