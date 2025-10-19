@@ -1,0 +1,380 @@
+/* === Global Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* === Base Theme Variables === */
+:root {
+  --accent: #007bff;
+  --bg: #f4f7fb;
+  --text: #222;
+  --card: #fff;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* === Dark Theme Variables === */
+body.dark {
+  --bg: #1f1f1f;
+  --text: #eaeaea;
+  --card: #2b2b2b;
+  --shadow: rgba(0, 0, 0, 0.5);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* === Header === */
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 20px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 600;
+  box-shadow: 0 3px 8px var(--shadow);
+}
+
+header .menu {
+  position: absolute;
+  right: 20px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+header .menu:hover {
+  transform: scale(1.1);
+}
+
+/* === Hidden Class === */
+.hidden {
+  display: none !important;
+}
+
+/* === Slide Menu === */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 260px;
+  height: 100%;
+  background: var(--card);
+  box-shadow: -3px 0 12px var(--shadow);
+  padding: 25px;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+  z-index: 1000;
+}
+
+#sideMenu.show {
+  transform: translateX(0);
+}
+
+#sideMenu h3 {
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: 25px;
+  font-size: 1.3rem;
+}
+
+.menu-section {
+  margin-bottom: 25px;
+}
+
+.menu-section label {
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* === Accent Button === */
+#accentBtn {
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 3px 6px var(--shadow);
+  transition: all 0.25s ease;
+}
+#accentBtn:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+  transform: scale(1.05);
+}
+
+/* === Color Options === */
+.color-options {
+  display: none;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+}
+.color-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ccc;
+  transition: transform 0.2s;
+}
+.color-circle:hover {
+  transform: scale(1.2);
+}
+
+/* === Archive Button === */
+#showArchive {
+  width: 100%;
+  padding: 10px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 3px 8px var(--shadow);
+  transition: 0.2s;
+}
+#showArchive:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+}
+
+/* === Add Task Section === */
+#addSection {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
+  background: var(--card);
+  box-shadow: 0 3px 8px var(--shadow);
+}
+#addSection input,
+#addSection button {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+#addSection button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+#addSection button:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+}
+
+/* === To-Do List === */
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+ul {
+  list-style: none;
+  width: 90%;
+  max-width: 420px;
+}
+li {
+  background: var(--card);
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease, background 0.3s;
+}
+li:hover {
+  transform: scale(1.02);
+}
+li.done label {
+  text-decoration: line-through;
+  color: gray;
+}
+li small {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* === Delete Mode === */
+.delete-item {
+  display: none;
+  background: #ff4d4d;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.delete-item:hover {
+  background: #c70000;
+}
+.delete-mode .delete-item {
+  display: inline-block;
+}
+
+/* === Delete All === */
+#deleteAllContainer {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+#deleteAllBtn {
+  background: #ff4d4d;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+#deleteAllBtn:hover {
+  background: #c70000;
+}
+
+/* === Floating Buttons === */
+.floating-btns {
+  position: fixed;
+  bottom: 25px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 500;
+}
+.circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 5px 12px var(--shadow);
+  transition: transform 0.2s, background 0.3s;
+}
+.circle:hover {
+  transform: scale(1.1);
+  background: color-mix(in srgb, var(--accent) 85%, white);
+}
+
+/* === Archive Section === */
+#archiveSection {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--card);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px var(--shadow);
+  width: 85%;
+  max-width: 400px;
+  z-index: 1100;
+}
+#archiveSection h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: var(--accent);
+}
+#closeArchive {
+  display: block;
+  margin: 15px auto 0;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+#closeArchive:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+}
+
+.color-circle.gradient {
+  border: 2px solid #ccc;
+  background-size: 150% 150%;
+}
+.color-circle.gradient:hover {
+  transform: scale(1.2);
+  border-color: var(--accent);
+}
+
+/* Accent color button container */
+#accentBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 12px 16px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: transform 0.2s, background 0.3s;
+}
+
+#accentBtn:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+  transform: scale(1.05);
+}
+
+/* Color options container */
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  justify-content: flex-start;
+}
+
+/* Color circle base */
+.color-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.color-circle:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* Make gradients clearly visible */
+.color-circle.gradient {
+  border: 2px solid rgba(255,255,255,0.6);
+  background-size: cover;
+}
+
+/* When selected */
+.color-circle.selected {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
